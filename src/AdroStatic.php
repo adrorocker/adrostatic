@@ -37,6 +37,8 @@ class AdroStatic
     {
         $this->root = $root;
         $this->container = new Container();
+
+        self::$instance = $this;
     }
 
     public function getContainer()
