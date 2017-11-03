@@ -17,8 +17,8 @@ matrix:
 before_script:
   # navigate out of module directory to prevent blown stack by recursive module lookup
   - wget https://phar.phpunit.de/phpunit-5.6.phar
-  - chmod +x phpunit.phar
-  - sudo mv phpunit.phar /usr/local/bin/phpunit
+  - chmod +x phpunit-5.6.phar
+  - sudo mv phpunit-5.6.phar /usr/local/bin/phpunit
   - phpunit --version
 
   - wget http://getcomposer.org/composer.phar
