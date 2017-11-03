@@ -8,7 +8,7 @@ php:
 
 sudo: required
 
-install: composer install --ignore-platform-reqs
+install: composer install
 
 matrix:
     allow_failures:
@@ -22,7 +22,7 @@ before_script:
   - phpunit --version
 
   - wget http://getcomposer.org/composer.phar
-  - php composer.phar install --ignore-platform-reqs
+  - php composer.phar install
   - php composer.phar require satooshi/php-coveralls
 
 script:
