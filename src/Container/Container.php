@@ -1,8 +1,9 @@
 <?php
 /**
- * AdroStatic
+ * AdroStatic.
  *
  * @link      https://github.com/adrorocker/adrostatic
+ *
  * @copyright Copyright (c) 2017 Alejandro Morelos
  */
 
@@ -24,6 +25,7 @@ class Container extends Pimple
         if (!$this->has($id)) {
             return $default;
         }
+
         return $this->offsetGet($id);
     }
 
@@ -33,7 +35,7 @@ class Container extends Pimple
      *
      * @param string $id Identifier of the entry to look for.
      *
-     * @return boolean
+     * @return bool
      */
     public function has($id)
     {

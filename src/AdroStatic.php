@@ -1,8 +1,9 @@
 <?php
 /**
- * AdroStatic
+ * AdroStatic.
  *
  * @link      https://github.com/adrorocker/adrostatic
+ *
  * @copyright Copyright (c) 2017 Alejandro Morelos
  */
 
@@ -50,6 +51,6 @@ class AdroStatic
 
     public function proxy()
     {
-        echo "AdroStatic";
+        echo 'AdroStatic';
     }
 }
