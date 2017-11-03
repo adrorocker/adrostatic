@@ -8,7 +8,7 @@ php:
 
 sudo: required
 
-install: composer install
+install: composer install --ignore-platform-reqs
 
 matrix:
     allow_failures:
@@ -16,13 +16,13 @@ matrix:
 
 before_script:
   # navigate out of module directory to prevent blown stack by recursive module lookup
-  - wget https://phar.phpunit.de/phpunit.phar
+  - wget https://phar.phpunit.de/phpunit-6.4.phar
   - chmod +x phpunit.phar
   - sudo mv phpunit.phar /usr/local/bin/phpunit
   - phpunit --version
 
   - wget http://getcomposer.org/composer.phar
-  - php composer.phar install
+  - php composer.phar install --ignore-platform-reqs
   - php composer.phar require satooshi/php-coveralls
 
 script:
