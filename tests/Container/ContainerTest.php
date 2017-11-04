@@ -17,7 +17,7 @@ class ContainerTest extends TestCase
     public function testContainerGet()
     {
         $container = new Container();
-        $container['me'] = function($container) {
+        $container['me'] = function ($container) {
             return 'me';
         };
         $this->assertSame('me', $container->get('me'));
