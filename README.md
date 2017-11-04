@@ -7,7 +7,7 @@ A simple markdown-file based blog
 [![Coverage Status][Master covarage image]][Master covarage]
 [![Latest Stable Version][Stable version image]][Stable version]
 [![License][License image]][License]
-[![StyleCI link][StyleCI image]][StyleCI]
+[![StyleCI][StyleCI image]][StyleCI]
 
 -----------------------------------
 
@@ -23,5 +23,5 @@ A simple markdown-file based blog
   [Stable version image]: https://poser.pugx.org/adrorocker/adrostatic/v/stable
   [License]: https://packagist.org/packages/adrorocker/adrostatic
   [License image]: https://poser.pugx.org/adrorocker/adrostatic/license
-  [StyleCI link]: https://styleci.io/repos/109353835
+  [StyleCI]: https://styleci.io/repos/109353835
   [StyleCI image]: https://styleci.io/repos/109353835/shield?branch=master
