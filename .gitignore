@@ -1,3 +1,6 @@
 build
 html
 vendor
+
+# Random
+.DS_Store
