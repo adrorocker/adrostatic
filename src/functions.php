@@ -6,7 +6,6 @@
  *
  * @link      https://github.com/adrorocker/adrostatic
  */
-
 function container()
 {
     return AdroStatic\AdroStatic::attic()->getContainer();

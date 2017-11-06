@@ -13,15 +13,14 @@ use AdroStatic\Config\Config;
 use AdroStatic\Container\Container;
 use AdroStatic\Content\Page;
 use AdroStatic\Content\Parser;
-use AdroStatic\Util;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use ParsedownExtra;
 use Slim\Http\Uri;
 use SplFileInfo;
 use SplFileObject;
-use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 class AdroStatic
 {
@@ -109,26 +108,26 @@ class AdroStatic
             $mapObject = new SplFileObject(Util::rootPath().'/map.json', 'r+');
             $mapObject->seek(0);
             $contents = trim($mapObject->current());
-            $fileHash = str_replace("# Last Source File Hash: ", "", $contents);
+            $fileHash = str_replace('# Last Source File Hash: ', '', $contents);
             if ($hash === $fileHash) {
                 $map = $this->filesystem->read('map.json');
-                $map = str_replace("# Last Source File Hash: $hash\n", "", $map);
+                $map = str_replace("# Last Source File Hash: $hash\n", '', $map);
                 $map = json_decode($map, true);
                 if (isset($map[$uri->getPath()])) {
                     $page = $this->proccessPage($map[$uri->getPath()]);
                     $query = $uri->getQuery();
 
                     if (false !== strrpos($query, 'debug')) {
-                        $type =  explode('=', $query);
-                        $type[1] = isset($type[1])?:'json';
+                        $type = explode('=', $query);
+                        $type[1] = isset($type[1]) ?: 'json';
                         switch ($type[1]) {
-                            case 'yaml':
+                            case 'yaml' :
                                 header('Content-Type: text/yaml');
                                 $config = array_merge(Util::config()->get('site'), $page->getAttributes());
                                 echo Yaml::dump($config);
                                 die();
                                 break;
-                            
+
                             default:
                                 header('Content-Type: application/json');
                                 $config = array_merge(Util::config()->get('site'), $page->getAttributes());
@@ -147,7 +146,7 @@ class AdroStatic
 
         $map = $this->buildMap($pages);
 
-        $this->filesystem->put('map.json', "# Last Source File Hash: "."$hash\n".json_encode($map, JSON_PRETTY_PRINT));
+        $this->filesystem->put('map.json', '# Last Source File Hash: '."$hash\n".json_encode($map, JSON_PRETTY_PRINT));
     }
 
     protected function searchFiles()
@@ -170,7 +169,7 @@ class AdroStatic
     {
         $pages = [];
         $posts = [];
-        
+
         foreach ($files as $file) {
             $pages[] = $this->proccessPage($file);
         }

@@ -6,7 +6,6 @@
  *
  * @link      https://github.com/adrorocker/adrostatic
  */
-
 function includeIfExists($file)
 {
     return file_exists($file) ? include $file : false;

@@ -11,8 +11,8 @@ namespace AdroStatic\Content;
 
 use AdroStatic\Util;
 use SplFileInfo;
-use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 class Parser
 {
@@ -27,12 +27,12 @@ class Parser
      * @var array
      */
     protected $attributes = [];
-    
+
     /**
      * @var string
      */
     protected $body;
-    
+
     /**
      * Constructor.
      *
@@ -42,7 +42,7 @@ class Parser
     {
         $this->file = $file;
     }
-    
+
     /**
      * Parse the contents of the file.
      *
@@ -60,19 +60,20 @@ class Parser
 
         if (!$matches) {
             $this->body = Util::filesystem()->read($this->file->getPathName());
+
             return $this;
         }
-        
+
         try {
             $this->attributes = Yaml::parse($matches[1]);
         } catch (ParseException $e) {
         }
-        
+
         $this->body = trim($matches[2]);
 
         return $this;
     }
-    
+
     /**
      * Get attributes.
      *
