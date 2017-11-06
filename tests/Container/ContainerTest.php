@@ -2,9 +2,9 @@
 /**
  * AdroStatic.
  *
- * @link      https://github.com/adrorocker/adrostatic
- *
  * @copyright Copyright (c) 2017 Alejandro Morelos
+ *
+ * @link      https://github.com/adrorocker/adrostatic
  */
 
 namespace AdroStatic\Test\Container;
