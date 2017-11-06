@@ -11,7 +11,7 @@ A simple markdown-file based blog
 
 -----------------------------------
 
-## Test
+## Tests
 
 ```bash
 phpunit --coverage-html html/ tests/

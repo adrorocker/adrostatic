@@ -14,7 +14,7 @@ use AdroStatic\Content\Parser;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 
-class PsrserTest extends TestCase
+class ParserTest extends TestCase
 {
     public function testConstructor()
     {
