@@ -11,6 +11,12 @@ A simple markdown-file based blog
 
 -----------------------------------
 
+## Test
+
+```bash
+phpunit --coverage-html html/ tests/
+```
+
 ## Authors:
 
 [Alejandro Morelos](https://github.com/adrorocker). 

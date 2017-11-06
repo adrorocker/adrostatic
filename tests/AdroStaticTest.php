@@ -10,7 +10,9 @@
 namespace AdroStatic\Test;
 
 use AdroStatic\AdroStatic;
+use AdroStatic\Config\Config;
 use AdroStatic\Container\Container;
+use League\Flysystem\Filesystem;
 use PHPUnit\Framework\TestCase;
 
 class AdroStaticTest extends TestCase
@@ -33,9 +35,18 @@ class AdroStaticTest extends TestCase
         $this->assertInstanceOf(Container::class, AdroStatic::attic()->getContainer());
     }
 
-    public function testAdroStaticWeb()
+    public function testAdroStaticFactory()
     {
-        $as = AdroStatic::web(__DIR__);
+        $as = AdroStatic::factory(__DIR__);
         $this->assertInstanceOf(AdroStatic::class, $as);
+    }
+
+    public function testAdroStaticGet()
+    {
+        $as = AdroStatic::factory(__DIR__);
+        $this->assertSame(__DIR__, $as->get('rootPath'));
+        $this->assertSame(null, $as->get('non'));
+        $this->assertInstanceOf(Filesystem::class, $as->get('filesystem'));
+        $this->assertInstanceOf(Config::class, $as->get('config'));
     }
 }

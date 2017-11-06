@@ -63,7 +63,7 @@ class AdroStatic
     {
         try {
             $config = Yaml::parse(file_get_contents($this->root.'/static.yml'));
-        } catch (ParseException $e) {
+        } catch (\Exception $e) {
             $config = [];
         }
         $config = new Config($config);

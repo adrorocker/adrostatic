@@ -45,13 +45,14 @@ class AdroStaticFunctionsTest extends TestCase
 
     public function testDD()
     {
+        $_ENV['testing'] = true;
         ob_start();
-        d(['key' => 'value']);
+        d('static');
         $string = ob_get_contents();
         ob_end_clean();
 
         $this->expectOutputString($string);
 
-        d(['key' => 'value']);
+        d('static');
     }
 }
