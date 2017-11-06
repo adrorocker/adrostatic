@@ -24,7 +24,7 @@ phpunit --coverage-html html/ tests/
   [Master]: https://travis-ci.org/adrorocker/adrostatic/
   [Master image]: https://travis-ci.org/adrorocker/adrostatic.svg?branch=master
   [Master covarage]: https://coveralls.io/github/adrorocker/adrostatic
-  [Master covarage image]: https://coveralls.io/repos/github/adrorocker/adrostatic/badge.svg?branch=master
+  [Master covarage image]: https://img.shields.io/coveralls/github/adrorocker/adrostatic/master.svg
   [Stable version]: https://packagist.org/packages/adrorocker/adrostatic
   [Stable version image]: https://poser.pugx.org/adrorocker/adrostatic/v/stable
   [License]: https://packagist.org/packages/adrorocker/adrostatic
