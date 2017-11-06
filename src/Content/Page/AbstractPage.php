@@ -10,7 +10,6 @@
 namespace AdroStatic\Content\Page;
 
 use AdroStatic\Content\Secction\Navigation;
-use AdroStatic\Util;
 use Cocur\Slugify\Slugify;
 use InvalidArgumentException;
 
@@ -29,7 +28,7 @@ abstract class AbstractPage
     protected $navItem;
 
     protected $filePath;
-    
+
     protected $attributes;
 
     public function __construct($content = '', $attributes = [], $filePath = null)
@@ -110,6 +109,7 @@ abstract class AbstractPage
                 $attributes['nav']['weight']
             );
         }
+
         return $this;
     }
 
