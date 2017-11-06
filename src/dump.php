@@ -6,7 +6,6 @@
  *
  * @link      https://github.com/adrorocker/adrostatic
  */
-
 if (!function_exists('dd')) {
     ini_set('xdebug.var_display_max_depth', 8);
     ini_set('xdebug.var_display_max_children', 256);
