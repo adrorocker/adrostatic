@@ -32,7 +32,8 @@
             "AdroStatic\\": "src/"
         },
         "files": [
-            "src/functions.php"
+            "src/functions.php",
+            "src/dump.php"
         ]
     },
     "autoload-dev": {

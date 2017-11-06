@@ -28,6 +28,7 @@
                 <directory>./composer</directory>
                 <directory>./tests</directory>
                 <directory>./vendor</directory>
+                <file>./src/dump.php</file>
             </exclude>
         </whitelist>
     </filter>
