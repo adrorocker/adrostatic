@@ -74,8 +74,8 @@ class Config
                     'permalink' => '404.html',
                 ],
                 'rss' => [
-                    'layout'     => 'rss.xml',
-                    'permalink'  => 'rss.xml',
+                    'layout'    => 'rss.xml',
+                    'permalink' => 'rss.xml',
                 ],
             ],
         ],
@@ -110,6 +110,7 @@ class Config
             'dir' => 'themes',
         ],
     ];
+
     /**
      * Config constructor.
      *
@@ -125,6 +126,7 @@ class Config
         }
         $this->setFromData($data);
     }
+
     /**
      * Set config data.
      *
@@ -137,8 +139,10 @@ class Config
         if ($this->data !== $data) {
             $this->data = $data;
         }
+
         return $this;
     }
+
     /**
      * Get config data.
      *
@@ -148,6 +152,7 @@ class Config
     {
         return $this->data;
     }
+
     /**
      * Get data as array.
      *
@@ -157,6 +162,7 @@ class Config
     {
         return $this->data->export();
     }
+
     /**
      * Return a config value.
      *
@@ -169,6 +175,7 @@ class Config
     {
         return $this->data->get($key, $default);
     }
+
     /**
      * Set source directory.
      *
@@ -187,8 +194,10 @@ class Config
             throw new \InvalidArgumentException(sprintf("'%s' is not a valid source directory.", $sourceDir));
         }
         $this->sourceDir = $sourceDir;
+
         return $this;
     }
+
     /**
      * Get source directory.
      *
@@ -198,6 +207,7 @@ class Config
     {
         return $this->sourceDir;
     }
+
     /**
      * Set destination directory.
      *
@@ -216,8 +226,10 @@ class Config
             throw new \InvalidArgumentException(sprintf("'%s' is not a valid destination directory.", $destinationDir));
         }
         $this->destinationDir = $destinationDir;
+
         return $this;
     }
+
     /**
      * Get destination directory.
      *
@@ -227,6 +239,7 @@ class Config
     {
         return $this->destinationDir;
     }
+
     /**
      * Is config has a valid theme?
      *
@@ -244,13 +257,17 @@ class Config
                     $this->get('theme')
                 ));
             }
+
             return true;
         }
+
         return false;
     }
+
     /**
      * Path helpers.
      */
+
     /**
      * @return string
      */
@@ -258,6 +275,7 @@ class Config
     {
         return $this->getSourceDir().'/'.$this->get('content.dir');
     }
+
     /**
      * @return string
      */
@@ -265,6 +283,7 @@ class Config
     {
         return $this->getSourceDir().'/'.$this->get('layouts.dir');
     }
+
     /**
      * @return string
      */
@@ -272,6 +291,7 @@ class Config
     {
         return $this->getSourceDir().'/'.$this->get('themes.dir');
     }
+
     /**
      * @param string $theme
      * @param string $dir
@@ -282,6 +302,7 @@ class Config
     {
         return $this->getSourceDir().'/'.$this->get('themes.dir').'/'.$theme.'/'.$dir;
     }
+
     /**
      * @return string
      */
@@ -289,6 +310,7 @@ class Config
     {
         return $this->getSourceDir().'/'.$this->get('output.dir');
     }
+
     /**
      * @return string
      */
