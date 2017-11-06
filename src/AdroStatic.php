@@ -19,7 +19,6 @@ use ParsedownExtra;
 use Slim\Http\Uri;
 use SplFileInfo;
 use SplFileObject;
-use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 class AdroStatic
@@ -121,7 +120,7 @@ class AdroStatic
                         $type = explode('=', $query);
                         $type[1] = isset($type[1]) ?: 'json';
                         switch ($type[1]) {
-                            case 'yaml' :
+                            case 'yaml':
                                 header('Content-Type: text/yaml');
                                 $config = array_merge(Util::config()->get('site'), $page->getAttributes());
                                 echo Yaml::dump($config);
