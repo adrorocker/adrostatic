@@ -46,9 +46,15 @@ class Config
             'baseurl'      => 'http://localhost:8000/',
             'canonicalurl' => true,
             'description'  => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'blog'         => [
+                'title'    => 'The awesome blog',
+                'nav'      => [
+                    'name'      => 'Blog',
+                    'weight'    => 1000,
+                ],
+            ],
             'taxonomies'   => [
-                'tags'       => 'tag',
-                'categories' => 'category',
+                'category',
             ],
             'paginate' => [
                 'max'  => 5,

@@ -18,8 +18,33 @@ class UtilTest extends TestCase
 {
     public function testCallStatic()
     {
-        $as = new AdroStatic(__DIR__);
+        $root = realpath(__DIR__).'/testFiles/';
+        $as = new AdroStatic($root);
         $this->assertInstanceOf(Config::class, Util::config());
         $this->assertSame(null, Util::configNon());
     }
+
+    public function testMapExist()
+    {
+        $root = realpath(__DIR__).'/testFiles/';
+        $as = new AdroStatic($root);
+        $this->assertTrue(Util::mapExist());
+    }
+
+    public function testMapHashFromFiles()
+    {
+        $hash = md5(implode('-', ['adro']));
+        $this->assertSame($hash, Util::mapHashFromFiles(['adro']));
+    }
+
+    // public function testGetMapHash()
+    // {
+    //     $root = realpath(__DIR__).'/testFiles/';
+    //     $as = new AdroStatic($root);
+
+    //     $_SERVER['REQUEST_URI'] = '/';
+    //     $test = Util::getMapHash();
+
+    //     $this->assertSame(true, true);
+    // }
 }

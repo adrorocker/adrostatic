@@ -9,13 +9,15 @@
 
 namespace AdroStatic\Content\Page;
 
+use AdroStatic\Content\Secction\Navigation;
+
 class Blog extends AbstractPage
 {
-    protected $attributes;
     protected $posts;
 
-    public function __construct($attributes = [], $posts = [])
+    public function __construct($content = '', $attributes = [], $filePath = null, $posts = [])
     {
+        parent::__construct($content, $attributes, $filePath);
         $this->posts = $posts;
     }
 

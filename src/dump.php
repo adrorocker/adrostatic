@@ -29,12 +29,10 @@ if (!function_exists('d')) {
     ini_set('xdebug.var_display_max_data', 1024);
     function d(...$args)
     {
-        if (!isset($_ENV['testing']) && $_ENV['testing'] !== true) {
-            $backtrace = debug_backtrace();
-            $file = $backtrace[0]['file'];
-            $line = $backtrace[0]['line'];
-            echo "<font style='font-size: smaller;' color='green'>$file:$line</font>";
-        }
+        $backtrace = debug_backtrace();
+        $file = $backtrace[0]['file'];
+        $line = $backtrace[0]['line'];
+        echo "<pre><font style='font-size: smaller;' color='green'>$file:$line</font></pre>";
         foreach ($args as $x) {
             var_dump($x);
         }

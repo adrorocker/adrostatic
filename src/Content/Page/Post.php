@@ -13,7 +13,7 @@ class Post extends AbstractPage
 {
     protected function setLink($data)
     {
-        $this->link = '/blog/'.$this->slug;
+        $this->link = '/blog/'.$this->slug . container()->get('config')->get('output.ext');
 
         return $this;
     }

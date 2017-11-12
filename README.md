@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://gitlab.com/adrorock/adrostatic" target="_blank">
+    <img src="/adrostatic.png" alt="AdroStatic"/>
+  </a>
+</p>
+
 [AdroStatic](https://github.com/adrorocker/adrostatic)
 ===================================
 

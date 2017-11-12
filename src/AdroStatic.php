@@ -13,6 +13,7 @@ use AdroStatic\Config\Config;
 use AdroStatic\Container\Container;
 use AdroStatic\Content\Page;
 use AdroStatic\Content\Parser;
+use AdroStatic\Renderer;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use ParsedownExtra;
@@ -27,6 +28,26 @@ class AdroStatic
      * @var string
      */
     protected $root;
+
+    /**
+     * @var array
+     */
+    protected $files = [];
+
+    /**
+     * @var array
+     */
+    protected $pages = [];
+
+    /**
+     * @var array
+     */
+    protected $posts = [];
+
+    /**
+     * @var array
+     */
+    protected $taxonomies = [];
 
     /**
      * @var AdroStatic\Container\Container
@@ -99,58 +120,118 @@ class AdroStatic
 
     public function proxy()
     {
-        $uri = Uri::createFromGlobals($_SERVER);
         $files = $this->searchFiles();
-        $hash = md5(implode('-', $files));
+        $pages = $this->createPages($files);
+        $posts = $this->getPosts();
+        $taxonomies = $this->classifyPosts();
+        $this->createBlog();
 
-        if ($this->filesystem->has('map.json')) {
-            $mapObject = new SplFileObject(Util::rootPath().'/map.json', 'r+');
-            $mapObject->seek(0);
-            $contents = trim($mapObject->current());
-            $fileHash = str_replace('# Last Source File Hash: ', '', $contents);
-            if ($hash === $fileHash) {
-                $map = $this->filesystem->read('map.json');
-                $map = str_replace("# Last Source File Hash: $hash\n", '', $map);
-                $map = json_decode($map, true);
-                if (isset($map[$uri->getPath()])) {
-                    $page = $this->proccessPage($map[$uri->getPath()]);
-                    $query = $uri->getQuery();
+        $this->generate();
 
-                    if (false !== strrpos($query, 'debug')) {
-                        $type = explode('=', $query);
-                        $type[1] = isset($type[1]) ?: 'json';
-                        switch ($type[1]) {
-                            case 'yaml':
-                                header('Content-Type: text/yaml');
-                                $config = array_merge(Util::config()->get('site'), $page->getAttributes());
-                                echo Yaml::dump($config);
-                                die();
-                                break;
+        $link = Uri::createFromGlobals($_SERVER)->getPath();
 
-                            default:
-                                header('Content-Type: application/json');
-                                $config = array_merge(Util::config()->get('site'), $page->getAttributes());
-                                echo json_encode($config, JSON_PRETTY_PRINT);
-                                die();
-                                break;
-                        }
-                    }
-                    echo $page->getContent();
-                    die;
-                }
+        $outpurDir = container()->get('config')->get('output.dir');
+        $ext = container()->get('config')->get('output.ext');
+        $link = $outpurDir . $link;
+        if (endsWith($link, '/')) {
+            $link = $link . 'index'.$ext;
+        }
+        echo Util::filesystem()->read($link);
+        return;
+
+        // $hash = Util::mapHashFromFiles($files);
+
+        // if (Util::mapExist()) {
+        //     $fileHash = Util::getMapHash();
+        //     if ($hash === $fileHash) {
+        //         $map = Util::getMap();
+        //         if (isset($map[$uri->getPath()])) {
+        //             $page = $this->proccessPage($map[$uri->getPath()]);
+        //             if (Util::debug($uri, $page)) {
+        //                 return;
+        //             }
+                    
+        //             $this->respond($page);
+        //             return;
+        //         }
+        //     }
+        // }
+
+        // $this->pages = $this->proccessPages($files);
+        // foreach ($this->pages as $page) {
+        //     if ($page instanceof Page\Post) {
+        //         $this->posts[] = $page;
+        //     }
+        // }
+        // $config = container()->get('config')->get('site');
+        // $blogAtts = container()->get('config')->get('blog');
+        // $content = (new Renderer\Blog())->renderContent($this->posts, $config);
+        // $blog = new Page\Blog($content, $blogAtts);
+        // $this->pages[] = $blog;
+
+        // $map = Util::buildMap($this->pages);
+
+        // $this->filesystem->put('map.json', '# Last Source File Hash: '."$hash\n".json_encode($map, JSON_PRETTY_PRINT));
+
+
+        // $this->generate();
+        // $page = $this->proccessPage($map[$uri->getPath()]);
+
+        // $this->respond($page);
+    }
+
+    protected function getPosts()
+    {
+        foreach ($this->pages as $page) {
+            if ($page instanceof Page\Post) {
+                $this->posts[] = $page;
             }
         }
 
-        $pages = $this->proccessPages($files);
+        return $this->posts;
+    }
 
-        $map = $this->buildMap($pages);
+    protected function classifyPosts()
+    {
+        $taxonomies = Util::config()->get('site.taxonomies');
 
-        $this->filesystem->put('map.json', '# Last Source File Hash: '."$hash\n".json_encode($map, JSON_PRETTY_PRINT));
+        foreach ($this->posts as $post) {
+            $attributes = $post->getAttributes();
+            foreach ($taxonomies as $taxonomy) {
+                if (array_key_exists($taxonomy, $attributes)) {
+                    $this->taxonomies[$taxonomy][$attributes[$taxonomy]][] = $post;
+                }
+            }
+        }
+        
+        return $this->taxonomies;
+    }
+
+    protected function createBlog()
+    {
+        $config = container()->get('config')->get('site');
+        $attributes = container()->get('config')->get('blog');
+        $renderer = (new Renderer\Blog())->setCategories($this->taxonomies['category'])->setPosts($this->posts);
+        $categories = $renderer->renderCategories($config);
+        $content = $renderer->renderContent($categories, $config);
+        $blog = new Page\Blog($content, $attributes);
+        $this->pages[] = $blog;
+    }
+
+    protected function respond(Page\AbstractPage $page)
+    {
+        $link = $page->getLink();
+        if (endsWith($link, '/')) {
+            $link = $link . 'index';
+        }
+        $ext = container()->get('config')->get('output.ext');
+        $outpurDir = container()->get('config')->get('output.dir');
+        $link = $outpurDir . '/' . $link  . $ext;
+        echo Util::filesystem()->read($link);
     }
 
     protected function searchFiles()
     {
-        $config = container()->get('config')->get('site');
         $contentDir = container()->get('config')->get('content.dir');
         $objects = $this->filesystem->listContents($contentDir, true);
         $files = [];
@@ -161,22 +242,26 @@ class AdroStatic
             $files[] = $object['path'];
         }
 
+        $this->files = $files;
+
         return $files;
     }
 
-    protected function proccessPages(array $files)
+    protected function createPages(array $files)
     {
         $pages = [];
-        $posts = [];
 
         foreach ($files as $file) {
-            $pages[] = $this->proccessPage($file);
+            $page = $this->createPage($file);
+            $pages[] = $page;
         }
+
+        $this->pages = $pages;
 
         return $pages;
     }
 
-    protected function proccessPage($file)
+    protected function createPage($file)
     {
         $body = '';
         $parser = new Parser(
@@ -199,13 +284,39 @@ class AdroStatic
         return $page;
     }
 
-    protected function buildMap(array $pages)
+    protected function generate()
     {
-        $json = [];
-        foreach ($pages as $page) {
-            $json[$page->getLink()] = $page->getFilePAth();
-        }
+        $posts = [];
+        $config = container()->get('config')->get('site');
+        $menu = Renderer\Navigation::build($this->pages)->render();
+        foreach ($this->pages as $page) {
+            if ($page instanceof Page\Home) {
+                $config = array_merge($config, $page->getAttributes());
+                $content = (new Renderer\Home())->setMenu($menu)->render($page->getContent(), $config);
+            } elseif ($page instanceof Page\Post) {
+                $noExt = true;
+                $config = array_merge($config, $page->getAttributes());
+                $content = (new Renderer\Post())->setMenu($menu)->render($page->getContent(), $config);
+            } elseif ($page instanceof Page\Page) {
+                $config = array_merge($config, $page->getAttributes());
+                $content = (new Renderer\Page())->setMenu($menu)->render($page->getContent(), $config);
+            } elseif ($page instanceof Page\Blog) {
+                $config = array_merge($config, $page->getAttributes());
+                $content = (new Renderer\Blog())->setMenu($menu)->render($page->getContent(), $config);
+            }
 
-        return $json;
+            $link = $page->getLink();
+            if (endsWith($link, '/')) {
+                $link = $link . 'index';
+            }
+            $ext = container()->get('config')->get('output.ext');
+            $outpurDir = container()->get('config')->get('output.dir');
+            $link = $outpurDir . '/' . $link;
+            if (!$noExt) {
+                $link .= $ext;
+            }
+            $noExt = false;
+            Util::filesystem()->put($link, $content);
+        }
     }
 }
