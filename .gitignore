@@ -2,5 +2,8 @@ build
 html
 vendor
 
+# Development temp
+composer.lock
+
 # Random
 .DS_Store
