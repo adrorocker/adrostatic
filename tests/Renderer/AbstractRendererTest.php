@@ -17,7 +17,7 @@ class AbstractRendererTest extends TestCase
 {
     public function testContainerFunction()
     {
-        $root = dirname(__DIR__).'/testFiles/';
+        $root = dirname(__DIR__).'/files/';
         $as = new AdroStatic($root);
         $r = new Renderer();
         $this->assertInstanceOf(AbstractRenderer::class, $r);

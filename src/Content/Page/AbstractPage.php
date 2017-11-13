@@ -34,7 +34,7 @@ abstract class AbstractPage
     public function __construct($content = '', $attributes = [], $filePath = null)
     {
         if (!isset($attributes['title'])) {
-            throw new InvalidArgumentException('config => `title` must be set');
+            throw new InvalidArgumentException('attributes => `title` must be set');
         }
 
         $this->filePath = $filePath;
@@ -121,11 +121,6 @@ abstract class AbstractPage
     public function getNavItem()
     {
         return $this->navItem;
-    }
-
-    public function getFilePath()
-    {
-        return $this->filePath;
     }
 
     public function getAttributes()

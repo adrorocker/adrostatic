@@ -42,17 +42,4 @@ class AdroStaticFunctionsTest extends TestCase
         $this->assertFalse(isAssoc(['value']));
         $this->assertFalse(isAssoc([]));
     }
-
-    public function testDD()
-    {
-        $_ENV['testing'] = true;
-        ob_start();
-        d('static');
-        $string = ob_get_contents();
-        ob_end_clean();
-
-        $this->expectOutputString($string);
-
-        d('static');
-    }
 }

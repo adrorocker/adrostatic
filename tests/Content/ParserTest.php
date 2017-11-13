@@ -18,9 +18,8 @@ class ParserTest extends TestCase
 {
     public function testConstructor()
     {
-        $root = dirname(__DIR__).'/testFiles/';
+        $root = dirname(__DIR__).'/files/';
         $as = new AdroStatic($root);
-
         $parser = new Parser(
             new SplFileInfo('content/index.md')
         );
@@ -30,7 +29,7 @@ class ParserTest extends TestCase
 
     public function testParse()
     {
-        $root = dirname(__DIR__).'/testFiles/';
+        $root = dirname(__DIR__).'/files/';
         $as = new AdroStatic($root);
 
         $parser = new Parser(
