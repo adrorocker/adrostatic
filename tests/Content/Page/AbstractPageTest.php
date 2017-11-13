@@ -56,10 +56,10 @@ class AbstractPageTest extends TestCase
     {
         $attributes = [
             'title' => 'My Page',
-            'nav' => [
-                'name' => 'My Page',
+            'nav'   => [
+                'name'   => 'My Page',
                 'weight' => 0,
-            ]
+            ],
         ];
         $page = new Page('', $attributes);
 
@@ -71,10 +71,10 @@ class AbstractPageTest extends TestCase
     {
         $attributes = [
             'title' => 'My Page',
-            'nav' => [
-                'name' => 'My Page',
+            'nav'   => [
+                'name'   => 'My Page',
                 'weight' => 0,
-            ]
+            ],
         ];
         $page = new Page('', $attributes);
 
