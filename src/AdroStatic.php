@@ -13,13 +13,11 @@ use AdroStatic\Config\Config;
 use AdroStatic\Container\Container;
 use AdroStatic\Content\Page;
 use AdroStatic\Content\Parser;
-use AdroStatic\Renderer;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use ParsedownExtra;
 use Slim\Http\Uri;
 use SplFileInfo;
-use SplFileObject;
 use Symfony\Component\Yaml\Yaml;
 
 class AdroStatic
@@ -132,12 +130,11 @@ class AdroStatic
 
         $outpurDir = container()->get('config')->get('output.dir');
         $ext = container()->get('config')->get('output.ext');
-        $link = $outpurDir . $link;
+        $link = $outpurDir.$link;
         if (endsWith($link, '/')) {
-            $link = $link . 'index'.$ext;
+            $link = $link.'index'.$ext;
         }
         echo Util::filesystem()->read($link);
-        return;
 
         // $hash = Util::mapHashFromFiles($files);
 
@@ -150,7 +147,7 @@ class AdroStatic
         //             if (Util::debug($uri, $page)) {
         //                 return;
         //             }
-                    
+
         //             $this->respond($page);
         //             return;
         //         }
@@ -172,7 +169,6 @@ class AdroStatic
         // $map = Util::buildMap($this->pages);
 
         // $this->filesystem->put('map.json', '# Last Source File Hash: '."$hash\n".json_encode($map, JSON_PRETTY_PRINT));
-
 
         // $this->generate();
         // $page = $this->proccessPage($map[$uri->getPath()]);
@@ -203,7 +199,7 @@ class AdroStatic
                 }
             }
         }
-        
+
         return $this->taxonomies;
     }
 
@@ -222,11 +218,11 @@ class AdroStatic
     {
         $link = $page->getLink();
         if (endsWith($link, '/')) {
-            $link = $link . 'index';
+            $link = $link.'index';
         }
         $ext = container()->get('config')->get('output.ext');
         $outpurDir = container()->get('config')->get('output.dir');
-        $link = $outpurDir . '/' . $link  . $ext;
+        $link = $outpurDir.'/'.$link.$ext;
         echo Util::filesystem()->read($link);
     }
 
@@ -307,11 +303,11 @@ class AdroStatic
 
             $link = $page->getLink();
             if (endsWith($link, '/')) {
-                $link = $link . 'index';
+                $link = $link.'index';
             }
             $ext = container()->get('config')->get('output.ext');
             $outpurDir = container()->get('config')->get('output.dir');
-            $link = $outpurDir . '/' . $link;
+            $link = $outpurDir.'/'.$link;
             if (!$noExt) {
                 $link .= $ext;
             }

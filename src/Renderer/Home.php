@@ -14,6 +14,7 @@ class Home extends AbstractRenderer
     public function render($content, $data = [])
     {
         $data = array_merge(['menu' => $this->menu], $data);
+
         return $this->engine->addData($data)->render('home', ['content' => $content]);
     }
 }
