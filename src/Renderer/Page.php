@@ -14,6 +14,7 @@ class Page extends AbstractRenderer
     public function render($content, $data = [])
     {
         $data = array_merge(['menu' => $this->menu], $data);
+
         return $this->engine->addData($data)->render('page', ['content' => $content]);
     }
 }

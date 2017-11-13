@@ -20,11 +20,11 @@ abstract class AbstractRenderer
 
     public function __construct()
     {
-        $dir  = Util::config()->get('themes.dir');
-        $path  = Util::rootPath() . '/' . $dir;
-        $theme  = $path . '/' . Util::config()->get('theme') . '/';
+        $dir = Util::config()->get('themes.dir');
+        $path = Util::rootPath().'/'.$dir;
+        $theme = $path.'/'.Util::config()->get('theme').'/';
 
-        $this->engine =  new Engine($theme);
+        $this->engine = new Engine($theme);
     }
 
     public function setMenu($menu)

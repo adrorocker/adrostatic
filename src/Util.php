@@ -58,10 +58,10 @@ class Util
         foreach ($pages as $page) {
             $link = $page->getLink();
             if (endsWith($link, '/')) {
-                $link = $link . 'index';
+                $link = $link.'index';
             }
             if ($page->getFilePath() == null) {
-                # code...
+                // code...
             }
             $json[$page->getLink()] = $page->getFilePath();
         }
@@ -79,13 +79,13 @@ class Util
             switch ($type[1]) {
                 case 'yaml':
                     header('Content-Type: text/yaml');
-                    $config = array_merge(Util::config()->get('site'), $page->getAttributes());
+                    $config = array_merge(self::config()->get('site'), $page->getAttributes());
                     echo Yaml::dump($config);
                     break;
 
                 default:
                     header('Content-Type: application/json');
-                    $config = array_merge(Util::config()->get('site'), $page->getAttributes());
+                    $config = array_merge(self::config()->get('site'), $page->getAttributes());
                     echo json_encode($config, JSON_PRETTY_PRINT);
                     break;
             }

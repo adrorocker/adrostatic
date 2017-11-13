@@ -40,13 +40,14 @@ class Blog extends AbstractRenderer
     {
         return $this->engine->addData($data)->render(
             'blog-content',
-            ['posts' => $this->posts,'categories' => $categories]
+            ['posts' => $this->posts, 'categories' => $categories]
         );
     }
 
     public function render($content = [], $data = [])
     {
         $data = array_merge(['menu' => $this->menu], $data);
+
         return $this->engine->addData($data)->render('blog', ['content' => $content]);
     }
 }
