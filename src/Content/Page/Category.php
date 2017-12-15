@@ -9,8 +9,6 @@
 
 namespace AdroStatic\Content\Page;
 
-use AdroStatic\Content\Secction\Navigation;
-
 class Category extends AbstractPage
 {
     protected $name;

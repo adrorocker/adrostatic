@@ -219,7 +219,6 @@ class AdroStatic
         }
     }
 
-
     protected function respond(Page\AbstractPage $page)
     {
         $link = $page->getLink();
