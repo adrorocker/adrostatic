@@ -212,7 +212,13 @@ class AdroStatic
         $content = $renderer->renderContent($categories, $config);
         $blog = new Page\Blog($content, $attributes);
         $this->pages[] = $blog;
+
+        foreach ($this->taxonomies['category'] as $category => $posts) {
+            $content = $renderer->setPosts($posts)->renderContent($categories, $config);
+            $this->pages[] = new Page\Category($category, $content, $attributes);
+        }
     }
+
 
     protected function respond(Page\AbstractPage $page)
     {
@@ -285,6 +291,8 @@ class AdroStatic
         $posts = [];
         $config = container()->get('config')->get('site');
         $menu = Renderer\Navigation::build($this->pages)->render();
+        $ext = container()->get('config')->get('output.ext');
+        $outpurDir = container()->get('config')->get('output.dir');
         foreach ($this->pages as $page) {
             if ($page instanceof Page\Home) {
                 $config = array_merge($config, $page->getAttributes());
@@ -299,15 +307,17 @@ class AdroStatic
             } elseif ($page instanceof Page\Blog) {
                 $config = array_merge($config, $page->getAttributes());
                 $content = (new Renderer\Blog())->setMenu($menu)->render($page->getContent(), $config);
+            } elseif ($page instanceof Page\Category) {
+                $config = array_merge($config, $page->getAttributes());
+                $content = (new Renderer\Blog())->setMenu($menu)->render($page->getContent(), $config);
             }
 
             $link = $page->getLink();
             if (endsWith($link, '/')) {
                 $link = $link.'index';
             }
-            $ext = container()->get('config')->get('output.ext');
-            $outpurDir = container()->get('config')->get('output.dir');
-            $link = $outpurDir.'/'.$link;
+
+            $link = $outpurDir.$link;
             if (!$noExt) {
                 $link .= $ext;
             }
