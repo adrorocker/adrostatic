@@ -134,6 +134,14 @@ class AdroStatic
         if (endsWith($link, '/')) {
             $link = $link.'index'.$ext;
         }
+
+        $dir = Util::config()->get('themes.dir');
+        $path = Util::rootPath().'/'.$dir;
+        $src = $path.'/'.Util::config()->get('theme').'/static/';
+        $dest = Util::rootPath().'/public/';
+
+        recurse_copy($src, $dest);
+
         echo Util::filesystem()->read($link);
 
         // $hash = Util::mapHashFromFiles($files);
@@ -323,5 +331,12 @@ class AdroStatic
             $noExt = false;
             Util::filesystem()->put($link, $content);
         }
+
+        $dir = Util::config()->get('themes.dir');
+        $path = Util::rootPath().'/'.$dir;
+        $src = $path.'/'.Util::config()->get('theme').'/static/';
+        $dest = Util::rootPath().'/'.$outpurDir.'/';
+
+        recurse_copy($src, $dest);
     }
 }

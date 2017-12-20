@@ -22,7 +22,7 @@ abstract class AbstractRenderer
     {
         $dir = Util::config()->get('themes.dir');
         $path = Util::rootPath().'/'.$dir;
-        $theme = $path.'/'.Util::config()->get('theme').'/';
+        $theme = $path.'/'.Util::config()->get('theme').'/views/';
 
         $this->engine = new Engine($theme);
     }
