@@ -4,7 +4,7 @@
         <hr>
         <?php foreach ($posts as $post) : ?>
         <a href="<?= $post->getLink() ?>"><?= $post->getTitle() ?></a><br>
-        <?php endforeach;?>
+        <?php endforeach; ?>
     </div><!--/.col-xs-12.col-sm-9-->
     <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
         <div class="list-group">
