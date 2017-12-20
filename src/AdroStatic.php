@@ -214,7 +214,7 @@ class AdroStatic
     protected function createBlog()
     {
         $config = container()->get('config')->get('site');
-        $attributes = container()->get('config')->get('blog');
+        $attributes = container()->get('config')->get('site.blog');
         $renderer = (new Renderer\Blog())->setCategories($this->taxonomies['category'])->setPosts($this->posts);
         $categories = $renderer->renderCategories($config);
         $content = $renderer->renderContent($categories, $config);
@@ -297,7 +297,7 @@ class AdroStatic
     {
         $posts = [];
         $config = container()->get('config')->get('site');
-        $menu = Renderer\Navigation::build($this->pages)->render();
+        $menu = Renderer\Navigation::build($this->pages)->render($config);
         $ext = container()->get('config')->get('output.ext');
         $outpurDir = container()->get('config')->get('output.dir');
         foreach ($this->pages as $page) {
@@ -307,7 +307,10 @@ class AdroStatic
             } elseif ($page instanceof Page\Post) {
                 $noExt = true;
                 $config = array_merge($config, $page->getAttributes());
-                $content = (new Renderer\Post())->setMenu($menu)->render($page->getContent(), $config);
+                $content = (new Renderer\Post())->setCategories($this->taxonomies['category'])
+                    ->renderCategories($config)
+                    ->setMenu($menu)
+                    ->render($page->getContent(), $config);
             } elseif ($page instanceof Page\Page) {
                 $config = array_merge($config, $page->getAttributes());
                 $content = (new Renderer\Page())->setMenu($menu)->render($page->getContent(), $config);

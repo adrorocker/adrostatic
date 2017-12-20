@@ -42,6 +42,7 @@ class Config
     protected static $defaults = [
         'site' => [
             'title'        => 'Static Site',
+            'brand'        => 'AdroStatic',
             'baseline'     => 'A static website',
             'baseurl'      => 'http://localhost:8000/',
             'canonicalurl' => true,

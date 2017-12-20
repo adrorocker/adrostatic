@@ -20,9 +20,9 @@ class Navigation extends AbstractRenderer
         $this->items = $items;
     }
 
-    public function render()
+    public function render(array $data)
     {
-        return $this->engine->render('menu', ['items' => $this->items]);
+        return $this->engine->addData($data)->render('menu', ['items' => $this->items]);
     }
 
     public static function build(array $pages = [])
