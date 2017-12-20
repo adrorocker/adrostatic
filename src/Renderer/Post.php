@@ -28,14 +28,13 @@ class Post extends AbstractRenderer
             ['categories' => $this->categories]
         );
 
-
         return $this;
     }
 
     public function render($content, $data = [])
     {
         $data = array_merge([
-            'menu' => $this->menu,
+            'menu'       => $this->menu,
             'categories' => $this->categoriesContent,
         ], $data);
 
