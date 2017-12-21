@@ -46,7 +46,7 @@ class AdroStatic
      * @var array
      */
     protected $taxonomies = [
-        'category' => []
+        'category' => [],
     ];
 
     /**
