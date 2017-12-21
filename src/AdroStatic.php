@@ -45,7 +45,9 @@ class AdroStatic
     /**
      * @var array
      */
-    protected $taxonomies = [];
+    protected $taxonomies = [
+        'category' => []
+    ];
 
     /**
      * @var AdroStatic\Container\Container
@@ -301,6 +303,7 @@ class AdroStatic
         $ext = container()->get('config')->get('output.ext');
         $outpurDir = container()->get('config')->get('output.dir');
         foreach ($this->pages as $page) {
+            $noExt = false;
             if ($page instanceof Page\Home) {
                 $config = array_merge($config, $page->getAttributes());
                 $content = (new Renderer\Home())->setMenu($menu)->render($page->getContent(), $config);
