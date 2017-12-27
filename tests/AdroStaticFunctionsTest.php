@@ -42,4 +42,14 @@ class AdroStaticFunctionsTest extends TestCase
         $this->assertFalse(isAssoc(['value']));
         $this->assertFalse(isAssoc([]));
     }
+
+    public function testrecurseCopy()
+    {
+        $files = __DIR__.'/files/';
+        $root = dirname(__DIR__).'/testFiles/';
+
+        $result = recurse_copy($files, $root);
+
+        $this->assertNull($result);
+    }
 }

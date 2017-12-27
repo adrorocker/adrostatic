@@ -1,6 +1,7 @@
 build
 html
 vendor
+testFiles
 
 # Development temp
 composer.lock
