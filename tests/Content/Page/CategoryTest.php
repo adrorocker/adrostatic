@@ -11,7 +11,6 @@ namespace AdroStatic\Test\Page;
 
 use AdroStatic\AdroStatic;
 use AdroStatic\Content\Page\Category;
-use AdroStatic\Content\Secction\Navigation;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
