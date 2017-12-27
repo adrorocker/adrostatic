@@ -60,7 +60,7 @@ class AdroStaticTest extends TestCase
         $root = __DIR__.'/files/';
         $_SERVER = array_merge($_SERVER, ['URI' => '/']);
         $as = new AdroStatic($root, new Config([
-            'theme' => 'v1',
+            'theme'   => 'v1',
             'content' => [
                 'dir' => 'clean',
             ],
