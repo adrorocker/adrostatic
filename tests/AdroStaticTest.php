@@ -19,39 +19,58 @@ class AdroStaticTest extends TestCase
 {
     public function testAdroStatic()
     {
-        $root = dirname(__DIR__).'/files/';
+        $root = __DIR__.'/files/';
         $as = new AdroStatic($root);
         $this->assertInstanceOf(AdroStatic::class, $as);
     }
 
     public function testAdroStaticAttic()
     {
-        $root = dirname(__DIR__).'/files/';
+        $root = __DIR__.'/files/';
         $as = new AdroStatic($root);
         $this->assertInstanceOf(AdroStatic::class, AdroStatic::attic());
     }
 
     public function testAdroStaticGetContainer()
     {
-        $root = dirname(__DIR__).'/files/';
+        $root = __DIR__.'/files/';
         $as = new AdroStatic($root);
         $this->assertInstanceOf(Container::class, AdroStatic::attic()->getContainer());
     }
 
     public function testAdroStaticFactory()
     {
-        $root = dirname(__DIR__).'/files/';
-        $as = new AdroStatic($root);
+        $root = __DIR__.'/files/';
+        $as = AdroStatic::factory($root);
         $this->assertInstanceOf(AdroStatic::class, $as);
     }
 
     public function testAdroStaticGet()
     {
-        $root = dirname(__DIR__).'/files/';
+        $root = __DIR__.'/files/';
         $as = new AdroStatic($root);
         $this->assertSame($root, $as->get('rootPath'));
         $this->assertSame(null, $as->get('non'));
         $this->assertInstanceOf(Filesystem::class, $as->get('filesystem'));
         $this->assertInstanceOf(Config::class, $as->get('config'));
+    }
+
+    public function testAdroStaticProxy()
+    {
+        $root = __DIR__.'/files/';
+        $_SERVER = array_merge($_SERVER, ['URI' => '/']);
+        $as = new AdroStatic($root, new Config([
+            'theme' => 'v1',
+            'content' => [
+                'dir' => 'clean',
+            ],
+        ]));
+
+        ob_start();
+        $as->proxy();
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertTrue(is_string($output));
     }
 }

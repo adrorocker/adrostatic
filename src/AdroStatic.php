@@ -55,6 +55,11 @@ class AdroStatic
     protected $container;
 
     /**
+     * @var AdroStatic\Config\Config
+     */
+    protected $config;
+
+    /**
      * @var AdroStatic\AdroStatic
      */
     protected static $instance;
@@ -64,11 +69,12 @@ class AdroStatic
         return self::$instance;
     }
 
-    public function __construct($root)
+    public function __construct($root, Config $config = null)
     {
         self::$instance = $this;
 
         $this->root = $root;
+        $this->config = $config;
         $this->container = new Container();
         $this->boostrap();
     }
@@ -85,7 +91,11 @@ class AdroStatic
         } catch (\Exception $e) {
             $config = [];
         }
-        $config = new Config($config);
+        if ($this->config) {
+            $config = $this->config;
+        } else {
+            $config = new Config($config);
+        }
 
         $this->container['config'] = function ($container) use ($config) {
             return $config;
@@ -120,20 +130,14 @@ class AdroStatic
 
     public function proxy()
     {
-        $files = $this->searchFiles();
-        $pages = $this->createPages($files);
-        $posts = $this->getPosts();
-        $taxonomies = $this->classifyPosts();
-        $this->createBlog();
-
-        $this->generate();
+        $this->build();
 
         $link = Uri::createFromGlobals($_SERVER)->getPath();
 
         $outpurDir = container()->get('config')->get('output.dir');
-        $ext = container()->get('config')->get('output.ext');
         $link = $outpurDir.$link;
         if (endsWith($link, '/')) {
+            $ext = container()->get('config')->get('output.ext');
             $link = $link.'index'.$ext;
         }
 
@@ -145,45 +149,17 @@ class AdroStatic
         recurse_copy($src, $dest);
 
         echo Util::filesystem()->read($link);
+    }
 
-        // $hash = Util::mapHashFromFiles($files);
+    public function build()
+    {
+        $files = $this->searchFiles();
+        $pages = $this->createPages($files);
+        $posts = $this->getPosts();
+        $taxonomies = $this->classifyPosts();
+        $this->createBlog();
 
-        // if (Util::mapExist()) {
-        //     $fileHash = Util::getMapHash();
-        //     if ($hash === $fileHash) {
-        //         $map = Util::getMap();
-        //         if (isset($map[$uri->getPath()])) {
-        //             $page = $this->proccessPage($map[$uri->getPath()]);
-        //             if (Util::debug($uri, $page)) {
-        //                 return;
-        //             }
-
-        //             $this->respond($page);
-        //             return;
-        //         }
-        //     }
-        // }
-
-        // $this->pages = $this->proccessPages($files);
-        // foreach ($this->pages as $page) {
-        //     if ($page instanceof Page\Post) {
-        //         $this->posts[] = $page;
-        //     }
-        // }
-        // $config = container()->get('config')->get('site');
-        // $blogAtts = container()->get('config')->get('blog');
-        // $content = (new Renderer\Blog())->renderContent($this->posts, $config);
-        // $blog = new Page\Blog($content, $blogAtts);
-        // $this->pages[] = $blog;
-
-        // $map = Util::buildMap($this->pages);
-
-        // $this->filesystem->put('map.json', '# Last Source File Hash: '."$hash\n".json_encode($map, JSON_PRETTY_PRINT));
-
-        // $this->generate();
-        // $page = $this->proccessPage($map[$uri->getPath()]);
-
-        // $this->respond($page);
+        $this->generate();
     }
 
     protected function getPosts()

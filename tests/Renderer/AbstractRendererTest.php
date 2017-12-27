@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 class AbstractRendererTest extends TestCase
 {
-    public function testContainerFunction()
+    public function testConstructor()
     {
         $root = dirname(__DIR__).'/files/';
         $as = new AdroStatic($root);
